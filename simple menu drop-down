@@ -1,0 +1,45 @@
+import bpy
+
+bl_info = {
+    "name":"AnimalRTS Addon",
+    "description":"Addon for AnimalRTS",
+    "category":"User"}
+    
+class AnimalRTSPanel(bpy.types.Panel):
+    bl_label = "Animal RTS"
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'TOOLS'
+
+    def draw(self, context):
+        layout = self.layout
+
+        obj = context.object
+
+        row = layout.row()
+        row.label(text="Object = " + obj.name)
+        row = layout.row()
+        row.prop(obj, "canEnter", text="can enter")
+        row = layout.row()
+        row.prop(obj, "objType", text="type")
+
+def register():
+    bpy.types.Object.canEnter = bpy.props.BoolProperty()
+    bpy.types.Object.objType = bpy.props.EnumProperty(name="objType",
+                                            description="Object Type",
+                                            default="None",
+                                            items=[
+                                            ('None','None','None'),
+                                            ('HomeBase','HomeBase','HomeBase'),
+                                            ('SubBase','SubBase','SubBase'),
+                                            ('Bridge','Bridge','Bridge'),
+                                            ])
+
+    bpy.utils.register_class(AnimalRTSPanel)
+
+
+def unregister():
+    bpy.utils.unregister_class(AnimalRTSPanel)
+
+
+if __name__ == "__main__":
+    register()
